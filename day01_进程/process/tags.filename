@@ -1,0 +1,12 @@
+-e !_TAG_FILE_SORTED	2	/2=foldcase/
+1.txt	./1.txt	1
+deamon_process.c	./deamon_process.c	1
+dm03_fork.c	./dm03_fork.c	1
+.dm03_fork.c.swp	./.dm03_fork.c.swp	1
+dm04_mulfork.c	./dm04_mulfork.c	1
+dm05_forkfile.c	./dm05_forkfile.c	1
+dm06_vfork.c	./dm06_vfork.c	1
+hello.c	./hello.c	1
+makefile	./makefile	1
+tags.filename	./tags.filename	1
+tags	./tags	1

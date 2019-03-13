@@ -1,0 +1,22 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BIN	makefile	/^BIN=dm03_fork dm04_mulfork  dm05_forkfile dm06_vfork hello$/;"	m
+CC	makefile	/^CC=gcc$/;"	m
+CFLAGS	makefile	/^CFLAGS=-Wall -g$/;"	m
+TestFunc	dm03_fork.c	/^void TestFunc(int loopnum)$/;"	f	signature:(int loopnum)
+TestFunc	dm04_mulfork.c	/^void TestFunc(int loopnum)$/;"	f	signature:(int loopnum)
+loopnum	dm03_fork.c	/^int loopnum = 100;$/;"	v
+main	deamon_process.c	/^int main(void )$/;"	f	signature:(void )
+main	dm03_fork.c	/^int main(void )$/;"	f	signature:(void )
+main	dm04_mulfork.c	/^int main(void )$/;"	f	signature:(void )
+main	dm05_forkfile.c	/^int main(void )$/;"	f	signature:(void )
+main	dm06_vfork.c	/^int main(void )$/;"	f	signature:(void )
+main	hello.c	/^int main()$/;"	f
+main01	dm06_vfork.c	/^int main01(void )$/;"	f	signature:(void )
+main02	dm03_fork.c	/^int main02(void )$/;"	f	signature:(void )
+main04	dm03_fork.c	/^int main04(void )$/;"	f	signature:(void )
+procnum	dm03_fork.c	/^int procnum = 10;$/;"	v
