@@ -47,3 +47,44 @@
 	1, 中断有优先级，而信号没有优先级，所有的信号都是平等的。
 	2, 信号处理程序是在用户态下运行的，而中断处理程序是在核心态下运行。
 	3,中断响应是及时的，而信号相应通常有较大的时间延迟。
+### 常见的信号
+	SIGABRT 进程停滞运行 6 
+	SIGALRM 警告钟表
+	SIGFPE算术运算例外
+	SIGHUP 系统挂断
+	SIGILL 非法指令
+	SIGINT 终端终端2
+	SIGKILL 停止进程（此信号不能被忽略或捕获）
+	SIPIPE 向没有读者的管道写入数据
+	SIGSEGV 无效内存段访问
+	SIGQUIT 终端退出 3
+	SIGTERM 终止
+	SIGUSR1 用户定义信号
+	SIGUSR2 用户定义信号2
+	SIGCHILD 子进程已经停止或退出
+	SIGCONT 如果被停止则继续执行
+	SIGTOP 停止执行
+	SIGSTP终端停止信号
+	SIGTOUT 后台进程请求进行写操作
+	SIGTIN 后台进程请求进行写操作
+
+### signal （int signum__sighandler_t handler）
+	1 signal 是一个待signum  和 handler
+	两个参数的函数，准备捕捉或者屏蔽的i新年好有参数signum
+	给出，接受到指定信号时将要调用的函数由handler 给出
+	2 handler 这个函数必须有一个int
+	类型的参数（即接受到信号代码）它本身的类型是void
+    3, handler 也恶意是两个特殊值 SIG_IGN 屏蔽该信号  SIG_DEL 恢复默认行为	
+### pause ()
+	函数可以被中断(进入睡眠状态),直到信号(signal)所中断。返回值：只返回-1.
+	错误代码：EINTR 有信号到达中断了此函数
+### man 手册
+	1 ,标准命令
+	2,系统调用
+	3,库函数
+	4,设备说明
+	5,文件格式
+	6,游戏和娱乐
+	7,杂项
+	8,管理员命令
+	9,其他(linux 特定),用来存放内核例行程序的文档
