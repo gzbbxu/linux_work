@@ -129,6 +129,20 @@
 	的1 代表未决，0代表信号可以抵达。
 	3,block 状态字，pending 状态字 64bit.
     4 blocking 状态字可以填写。pending 状态字用户只能读 
+### sigaction 函数注册信号处理函数 
+	int sigaction(int signum,const struct sigaction * act,const struct sigaction* old)
+	1,signum 信号的值，除了sigkill以及sigstop 外的任何一个特定有效的信号
+	2,第二个参数是指向结构sigaction 的一个实例的指针。指定了信号的处理。
+	3,old  指向的对象用来保存原来对应的信号的处理，可以指定为null
+	4, 成功返回0，失败返回-1
+
+### sigqueue 新的信号发送函数
+	int sigqueue(pid_t pid,int sig,const unioon sigval value);
+    1,sinqueue的第一个参数是指定接受信号的进程id.第二个参数即将发送的信号。
+	第三个参数 是union sigval 指定信号的传递参数 和。
+	2,sigqueue 比 kill 传递了更多的附加信息，但siqueue
+	只能向一个进程发送信号，而不能发送信号的一个进程组。
+
 
 
 
