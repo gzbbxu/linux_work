@@ -28,7 +28,7 @@ socket 可以看成是用户进程与内核网络协议栈的编程接口
 
  以上两个结构是通用的。
 ### socketaddr_in 和 sockaddr 是通用的。
- 
+
 ### 网络字节
  1，字节序 
   大端字节序，和 小端字节序 。不同的主机有不同的字节序，x86 为小端，motorola大端
@@ -125,4 +125,23 @@ MSG_PEEK (数据包的提前预读)
 
 
 
+### tcp/ip 的11种状态
+
+
+
+![](zhuangtai.png)
+
+
+
+1 ，3次握手的时间是非常快的，基本上YSN_SEND SYN_RCVD 是基本看不到的。
+
+服务器端调用了listen 函数，那么这个套节字 listen(listenfd,SOMAXCONN) listen 将进入被动套接字。只来做舰艇操作。而主动套接字可以主动的发送连接。
+
+2，ccp/ip 为什么要做3次握手，4次断开？ 
+
+三次握手：tcp/ip 是全双工 双通道协议。2次身份认证。确定身份。
+
+四次断开：不管是客户端还是服务端都可以主动关闭连接。先调用close 的一端，最终socket 推进到**TIME_WAIT** 状态。TIME_WAIT 的言外之意是等一会再close.
+
+3，为什么主动关闭socket 的一端进入TIME_WAIT 而不是直接close ?
 
