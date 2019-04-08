@@ -20,7 +20,7 @@ struct packet
 {
 	int len; //自定义的包头，包含了包的大小
 	int msgtype;
-	char buf[1024]; //包存放的数据
+	char buf[1024*1024*1]; //包存放的数据
 };
 
 //1一次全部读走 //2次读完数据 //出错分析 //对方已关闭
@@ -135,11 +135,24 @@ void do_service(int conn)
 			printf("client close content \n");
 			break;
 		}
-		printf("消息类型 %d \n",type);
+		printf("\n消息类型 %d %d-============================================\n",type,n);
 		//将数据打印出。
-		fputs(recvbuf.buf, stdout);
-        //将接受到的数据再直接发出去。
-		writen(conn, &recvbuf, 8 + n);  //注意写数据的时候，多加4个字节
+		//fputs(recvbuf.buf, stdout);
+		printf("\n打印end ====================================================\n");
+		if(type == 1){
+			printf("开始写数据\n");
+         	char * str ="hello 世界 你好 dd";
+
+		 	memset(&recvbuf, 0, sizeof(recvbuf));
+			recvbuf.len = htonl(strlen(str));
+			recvbuf.msgtype = htonl(1);
+		 	memcpy(&recvbuf.buf,str,strlen(str));
+			printf("\n要写的数据 %d , %s \n" ,strlen(str),recvbuf.buf);
+         	//将接受到的数据再直接发出去。
+		 	int wrinum =writen(conn, &recvbuf, 8 + strlen(str));  //注意写数据的时候，多加4个字节
+		 	printf("已经写了 %d \n",wrinum);
+		}
+		
 	}
 }
 
@@ -156,7 +169,7 @@ int main(void)
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_port = htons(8001);
 //	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	servaddr.sin_addr.s_addr = inet_addr("192.168.1.7");
+	servaddr.sin_addr.s_addr = inet_addr("192.168.1.184");
 	/*inet_aton("127.0.0.1", &servaddr.sin_addr);*/
 
 	int on = 1;
