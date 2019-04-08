@@ -173,4 +173,32 @@ FIN_WAIT_2 是典型的半连接状态。客户端主动的关闭close.对等方
  客户端继续向服务器发送报文 .对方关闭socket ,不等于对等方不能写。
  这种场景下，(服务器关闭， 客户端继续写)继续写 将会引起tcp/ip 协议 进行RST段重置。 会引起(客户端)写端产生一个信号SIGPIPE. 如果不对这个信号处理，这个信号默认的处理是
  **让进程消失掉**; 结论就是客户端和服务器都忽略掉这个信号。
+
+server和client 已经建立了连接，server调用了close, 发送FIN
+段给client（其实不一定会发送FIN段，后面再说），此时server不能再通过socket发送和接收数据，此时client调用read，如果接收到FIN
+段会返回0，但client此时还是可以write
+给server的，write调用只负责把数据交给TCP发送缓冲区就可以成功返回了，所以不会出错，
+而server收到数据后应答一个RST段，表示服务器已经不能接收数据，连接重置，client收到RST段后无法立刻通知应用层，
+只把这个状态保存在TCP协议层。如果client再次调用write发数据给server，由于TCP协议层已经处于RST状态了，因此不会将数据发出，而是发一个SIGPIPE信号给应用层，SIGPIPE信号的缺省处理动作是终止程序。
+
+shutdown 可以选择关闭某个方向或者同时关闭两个方向，shutdown how = 0 or how = 1
+or how = 2 (SHUT_RD or SHUT_WR or
+		SHUT_RDWR)，后两者可以保证对等方接收到一个EOF字符（即发送了一个FIN段），而不管其他进程是否已经打开了这个套接字。而close不能保证，只有当某个sockfd的引用计数为0，close
+才会发送FIN段，否则只是将引用计数减1而已。也就是说只有当所有进程（可能fork多个子进程都打开了这个套接字）都关闭了这个套接字，close
+才会发送FIN 段。
+
+所以说，如果是调用shutdown how = 1
+，则意味着往一个已经发送出FIN的套接字中写是允许的，接收到FIN段仅代表对方不再发送数据，但对方还是可以读取数据的，可以让对方可以继续读取缓冲区剩余的数据
+https://blog.csdn.net/jnu_simba/article/details/9068059 
  7 ,close 与 shutdown 的区别。
+ close 终止了数据传输的两个方向。
+
+ shutdown 可以选择的终止某个方向的数据传送或者终止数据传送的两个方向。
+ 连接临死的时候，可以发送一个回收函。比如：只想关闭写，不想关闭收，close
+ 写的方向，调用shutdown 函数，fin 分解，对等方能接受到，对等方可以在回一个报文。
+ close 实现原理是引用计数技术。只有引用计数为0的时候， 关闭只是引用技术减1
+ 不管多少引用技术，就想关闭。shundown 就派出用场了。
+
+
+ 
+
